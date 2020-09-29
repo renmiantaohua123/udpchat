@@ -2,7 +2,7 @@
 // Created by shawn on 20-9-8.
 //
 
-// socket编程15 UDP聊天实验室实现
+// socket编程 UDP聊天实验室实现
 
 #include "Pub.h"
 #include <iostream>
