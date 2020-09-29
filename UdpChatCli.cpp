@@ -1,8 +1,13 @@
 //
+<<<<<<< HEAD
 // Created by shawn on 20-9-8.
 //
 
 // socket编程 UDP聊天实验室实现
+=======
+// Created by jxq on 20-9-8.
+
+>>>>>>> d334304... update
 
 #include "Pub.h"
 #include <iostream>
@@ -15,7 +20,11 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
+<<<<<<< HEAD
 
+=======
+#include <vector>
+>>>>>>> d334304... update
 using namespace std;
 
 char username[16];
@@ -98,7 +107,10 @@ char* trim(char* cmdline)
     memcpy(res, s, len);
     return res;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> d334304... update
 vector<char*> getcmd(char* cmdline) {
     vector<char*> res;
     char *s = trim(cmdline);
@@ -121,7 +133,11 @@ vector<char*> getcmd(char* cmdline) {
             len++;
             temp++;
         }
+<<<<<<< HEAD
         memcpy(tmp, s, len);
+=======
+        memcpy(tmp, s,len);
+>>>>>>> d334304... update
         res.push_back(tmp);
         cmdline = cmdline + len;
         while ((strcmp(cmdline, "") != 0) && *cmdline == ' ')
@@ -131,7 +147,39 @@ vector<char*> getcmd(char* cmdline) {
     }
     return res;
 }
+<<<<<<< HEAD
 
+=======
+bool sendmsgtoall(int sock,char *name ,char *msg)
+{
+	USER_LIST::iterator it;
+	int size = client_list.size();
+	if(size == 0)
+	{
+		printf("no one logined server\n");
+		return false;
+	}
+	for(it = client_list.begin();it != client_list.end(); ++it)
+	{
+		MESSAGE m;
+		memset(&m,0,sizeof(m));
+		m.cmd = htons(C2ALL_CHAT);
+		CHAT_MSG cm;
+		strcpy(cm.username,username);
+		strcpy(cm.msg,msg);
+		memcpy(m.body,&cm,sizeof(MESSAGE));
+		struct sockaddr_in peeraddr;
+		peeraddr.sin_family = AF_INET;
+		peeraddr.sin_addr.s_addr = it->ip;
+		peeraddr.sin_port = it->port;
+		in_addr temp;
+		temp.s_addr = it->ip;
+		printf("sending message [%s] to user [%s] <->%s:%d\n",msg ,it->username,inet_ntoa(peeraddr.sin_addr),it->port );
+		sendto(sock,&m,sizeof(m),0,(struct sockaddr*)&peeraddr ,sizeof(peeraddr));
+	}
+	return true;
+}
+>>>>>>> d334304... update
 bool sendmsgto(int sock, char* name, char* msg)
 {
     //cout << "sendmsgto" << endl;
@@ -199,6 +247,10 @@ void parse_cmd(char *cmdline, int sock, struct sockaddr_in server_addr)
         printf("bad command\n");
         printf("\n Commands are:\n");
         printf("send username msg\n");
+<<<<<<< HEAD
+=======
+     	printf("send alluser msg\n");
+>>>>>>> d334304... update
         printf("list\n");
         printf("exit\n");
         printf("\n");
@@ -221,9 +273,19 @@ void parse_cmd(char *cmdline, int sock, struct sockaddr_in server_addr)
     {
         char* peername = new char[16];
         char* msg = new char[MSG_LEN];
+<<<<<<< HEAD
 
         peername = cmd[1];
         msg = cmd[2];
+=======
+        peername = cmd[1];
+        msg = cmd[2];
+        if(strcmp(cmd[1],"alluser") == 0 )
+        {
+        	sendmsgtoall(sock,peername,msg);
+        }
+        else
+>>>>>>> d334304... update
         /* send user msg */
         /*      p    p2  */
         sendmsgto(sock, peername, msg);
@@ -320,10 +382,19 @@ void chat_cli(int sock)
 
         printf("%d %s <-> %s:%d\n", i, user.username, inet_ntoa(tmp), user.port);
     }
+<<<<<<< HEAD
     printf("\n Commands are:\n");
     printf("send username msg\n");
     printf("list\n");
     printf("exit\n");
+=======
+    printf("\nCommands are:\n");
+    printf("send username msg\n");
+    printf("send alluser msg\n");
+    printf("list\n");
+    printf("exit\n");
+
+>>>>>>> d334304... update
     printf("\n");
 
     fd_set rset;
@@ -364,6 +435,12 @@ void chat_cli(int sock)
                 case C2C_CHAT:
                     do_chat(msg);
                     break;
+<<<<<<< HEAD
+=======
+		case C2ALL_CHAT:
+		    do_chat(msg);
+		    break;
+>>>>>>> d334304... update
                 default:
                     break;
             }
@@ -396,3 +473,7 @@ int main(void)
 
     return 0;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> d334304... update
