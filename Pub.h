@@ -27,6 +27,7 @@ using namespace std;
 // C2C
 #define C2C_CHAT                0x06
 
+#define C2ALL_CHAT
 typedef struct message
 {
     int cmd;
